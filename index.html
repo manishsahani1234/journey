@@ -40,7 +40,8 @@ html {
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    overflow-x: hidden;
+    /* overflow-x: clip ensures position:sticky works reliably in WP/Elementor */
+    overflow-x: clip;
 }
 
 .mwp-wrapper *, 
@@ -77,7 +78,6 @@ html {
     pointer-events: none;
 }
 
-/* Holographic Glow Stage */
 .mwp-intro-stage {
     position: relative;
     display: flex;
@@ -130,7 +130,6 @@ html {
     filter: drop-shadow(0 4px 12px rgba(124, 58, 237, 0.4));
 }
 
-/* Tech Floating Pill Badges */
 .mwp-intro-tech-pills {
     display: flex;
     flex-wrap: wrap;
@@ -168,7 +167,6 @@ html {
     100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Loading Progress Bar */
 .mwp-intro-load-box {
     width: 260px;
     position: relative;
@@ -215,7 +213,7 @@ html {
 }
 
 /* ==============================================================
-   TOP HERO TECH PILLARS SHOWCASE (INSIDE PAGE)
+   TOP HERO TECH PILLARS STRIP
 ============================================================== */
 .mwp-hero-tech-strip {
     display: flex;
@@ -255,17 +253,278 @@ html {
 }
 
 /* ==============================================================
-   KEYFRAME ANIMATIONS (JUMP, BLINK, SCRATCH, RUN, TYPE)
+   STICKY 1-LINE GLASS HEADER (LOCKED STICKY + COMPACT BUTTON)
 ============================================================== */
-@keyframes mwpJump {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-7px); }
+.mwp-header-full {
+    width: 100%;
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 99999 !important;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--mwp-border);
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.mwp-jump-anim {
-    animation: mwpJump 2.2s ease-in-out infinite;
+.mwp-header-full.is-scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.1);
+    border-bottom-color: rgba(124, 58, 237, 0.25);
 }
 
+/* Support for WordPress Admin Bar */
+body.admin-bar .mwp-header-full {
+    top: 32px !important;
+}
+
+.mwp-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    gap: 16px;
+}
+
+/* Header Left: Brand Logo & Status Tag */
+.mwp-header-left-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.mwp-logo {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+.mwp-logo-img {
+    height: 42px;
+    width: auto;
+    max-width: 190px;
+    object-fit: contain;
+    transition: var(--mwp-ease);
+    filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.08));
+}
+
+.mwp-header-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #059669;
+    background: rgba(5, 150, 105, 0.09);
+    border: 1px solid rgba(5, 150, 105, 0.22);
+    padding: 5px 12px;
+    border-radius: 30px;
+    white-space: nowrap;
+}
+
+/* Header Menu (Clean Text Only) */
+.mwp-nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mwp-nav-link {
+    color: var(--mwp-muted);
+    font-size: 0.93rem;
+    font-weight: 600;
+    padding: 8px 13px;
+    border-radius: 10px;
+    text-decoration: none !important;
+    transition: var(--mwp-ease);
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.mwp-nav-link:hover,
+.mwp-nav-link.active {
+    color: var(--mwp-violet-dark);
+    background: rgba(124, 58, 237, 0.08);
+}
+
+/* Header Right: Static & Compact Button (No jump, no moving effects) */
+.mwp-header-cta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.mwp-btn-wa-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #ffffff !important;
+    padding: 7px 15px; /* Compact & clean */
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.83rem; /* Slightly smaller font */
+    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.25);
+    text-decoration: none !important;
+    animation: none !important; /* Completely static */
+    transform: none !important;  /* No movement */
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+.mwp-btn-wa-header:hover {
+    opacity: 0.92;
+    transform: none !important; /* Kept strictly stationary */
+}
+
+.mwp-burger-btn {
+    display: none;
+    background: rgba(15, 23, 42, 0.05);
+    border: 1px solid var(--mwp-border);
+    color: var(--mwp-title);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: var(--mwp-ease);
+}
+
+.mwp-mobile-menu {
+    display: none;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--mwp-border);
+    padding: 16px 24px 20px;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mwp-mobile-menu.open {
+    display: flex;
+}
+
+.mwp-mobile-menu .mwp-nav-link {
+    font-size: 1rem;
+    padding: 10px 14px;
+    width: 100%;
+}
+
+/* ==============================================================
+   IDE CODE TERMINAL (INFINITE LIVE TYPING ENGINE)
+============================================================== */
+.mwp-terminal-card {
+    background: #0b1120;
+    border: 1px solid rgba(15, 23, 42, 0.2);
+    border-radius: 22px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+    overflow: hidden;
+    position: relative;
+    transition: var(--mwp-ease);
+}
+
+.mwp-terminal-card:hover {
+    border-color: var(--mwp-violet);
+    box-shadow: 0 24px 50px rgba(124, 58, 237, 0.25);
+}
+
+.mwp-terminal-header {
+    background: #172236;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mwp-term-dots {
+    display: flex;
+    gap: 7px;
+}
+
+.mwp-term-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.mwp-dot-red { background: #ef4444; }
+.mwp-dot-yellow { background: #f59e0b; }
+.mwp-dot-green { background: #10b981; }
+
+.mwp-term-title {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+/* Real-time typing code container with steady height */
+.mwp-terminal-body {
+    padding: 22px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.83rem;
+    line-height: 1.82;
+    color: #f8fafc;
+    min-height: 340px; /* Prevents card jumping during live retyping */
+    box-sizing: border-box;
+    word-break: break-word;
+}
+
+/* Code Syntax Color Classes */
+.mwp-code-keyword { color: #c084fc; font-weight: 600; }
+.mwp-code-fn { color: #38bdf8; }
+.mwp-code-str { color: #4ade80; }
+.mwp-code-num { color: #fbbf24; }
+.mwp-code-comment { color: #64748b; font-style: italic; }
+
+.mwp-code-cursor {
+    display: inline-block;
+    color: var(--mwp-cyan);
+    font-weight: 700;
+    margin-left: 2px;
+    animation: mwpCursorBlink 0.75s infinite;
+}
+
+.mwp-hero-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 14px 18px;
+    background: #172236;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mwp-metric-box {
+    text-align: center;
+}
+
+.mwp-metric-val {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #38bdf8;
+    font-family: 'Outfit', sans-serif;
+}
+
+.mwp-metric-lbl {
+    font-size: 0.7rem;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* ==============================================================
+   OTHER KEYFRAMES & UTILITY STYLES
+============================================================== */
 @keyframes mwpBlink {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.3; transform: scale(0.85); }
@@ -293,7 +552,6 @@ html {
     animation: mwpCursorBlink 0.8s infinite;
 }
 
-/* Scratch / Brush Highlight Line */
 .mwp-scratch {
     position: relative;
     display: inline-block;
@@ -318,7 +576,6 @@ html {
     width: 100%;
 }
 
-/* Continuous Running Marquee */
 @keyframes mwpRunTicker {
     0% { transform: translateX(0); }
     100% { transform: translateX(-50%); }
@@ -352,7 +609,6 @@ html {
     gap: 10px;
 }
 
-/* Scroll Reveal Fade-In */
 .mwp-reveal {
     opacity: 0;
     transform: translateY(28px);
@@ -369,9 +625,7 @@ html {
 .mwp-delay-3 { transition-delay: 0.3s; }
 .mwp-delay-4 { transition-delay: 0.4s; }
 
-/* ==============================================================
-   LAYOUT & CONTAINERS
-============================================================== */
+/* General Layout Containers */
 .mwp-container {
     max-width: 1280px;
     margin: 0 auto;
@@ -420,183 +674,10 @@ html {
     margin-bottom: 42px;
 }
 
-.mwp-center {
-    text-align: center;
-}
+.mwp-center { text-align: center; }
+.mwp-center .mwp-subtitle { margin-left: auto; margin-right: auto; }
 
-.mwp-center .mwp-subtitle {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* ==============================================================
-   STICKY FULL-WIDTH 1-LINE GLASS HEADER
-============================================================== */
-.mwp-header-full {
-    width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--mwp-border);
-    transition: all 0.3s ease;
-}
-
-.mwp-header-full.is-scrolled {
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
-    border-bottom-color: rgba(124, 58, 237, 0.25);
-}
-
-.mwp-nav-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0;
-    gap: 16px;
-}
-
-/* Header Left: Brand Logo & Status Tag */
-.mwp-header-left-wrap {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-shrink: 0;
-}
-
-.mwp-logo {
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none !important;
-    cursor: pointer;
-}
-
-.mwp-logo-img {
-    height: 44px;
-    width: auto;
-    max-width: 200px;
-    object-fit: contain;
-    transition: var(--mwp-ease);
-    filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.08));
-}
-
-.mwp-logo-img:hover {
-    transform: scale(1.04);
-    filter: drop-shadow(0 4px 14px rgba(124, 58, 237, 0.3));
-}
-
-.mwp-header-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: #059669;
-    background: rgba(5, 150, 105, 0.09);
-    border: 1px solid rgba(5, 150, 105, 0.22);
-    padding: 6px 14px;
-    border-radius: 30px;
-    white-space: nowrap;
-}
-
-/* Header Menu (Clean Text Only) */
-.mwp-nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.mwp-nav-link {
-    color: var(--mwp-muted);
-    font-size: 0.94rem;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 10px;
-    text-decoration: none !important;
-    transition: var(--mwp-ease);
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.mwp-nav-link:hover,
-.mwp-nav-link.active {
-    color: var(--mwp-violet-dark);
-    background: rgba(124, 58, 237, 0.08);
-}
-
-/* Header Right Actions */
-.mwp-header-cta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
-}
-
-.mwp-btn-wa-header {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: #ffffff !important;
-    padding: 9px 18px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 0.88rem;
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
-    text-decoration: none !important;
-    transition: var(--mwp-ease);
-}
-
-.mwp-btn-wa-header:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.45);
-}
-
-.mwp-burger-btn {
-    display: none;
-    background: rgba(15, 23, 42, 0.05);
-    border: 1px solid var(--mwp-border);
-    color: var(--mwp-title);
-    width: 42px;
-    height: 42px;
-    border-radius: 11px;
-    font-size: 1.15rem;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    transition: var(--mwp-ease);
-}
-
-.mwp-mobile-menu {
-    display: none;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid var(--mwp-border);
-    padding: 16px 24px 20px;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.mwp-mobile-menu.open {
-    display: flex;
-}
-
-.mwp-mobile-menu .mwp-nav-link {
-    font-size: 1rem;
-    padding: 10px 14px;
-    width: 100%;
-}
-
-/* ==============================================================
-   BUTTONS
-============================================================== */
+/* Buttons */
 .mwp-btn-pri {
     display: inline-flex;
     align-items: center;
@@ -657,9 +738,7 @@ html {
     color: var(--mwp-violet-dark) !important;
 }
 
-/* ==============================================================
-   HERO SECTION
-============================================================== */
+/* Hero Content */
 .mwp-hero {
     position: relative;
     padding: 55px 0 45px;
@@ -733,10 +812,7 @@ html {
     transition: var(--mwp-ease);
 }
 
-.mwp-pill-item i {
-    color: var(--mwp-violet);
-}
-
+.mwp-pill-item i { color: var(--mwp-violet); }
 .mwp-pill-item:hover {
     border-color: var(--mwp-violet);
     background: rgba(124, 58, 237, 0.1);
@@ -749,97 +825,7 @@ html {
     flex-wrap: wrap;
 }
 
-/* IDE Code Terminal Mockup */
-.mwp-terminal-card {
-    background: #0f172a;
-    border: 1px solid rgba(15, 23, 42, 0.2);
-    border-radius: 22px;
-    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.22);
-    overflow: hidden;
-    position: relative;
-    transition: var(--mwp-ease);
-}
-
-.mwp-terminal-card:hover {
-    border-color: var(--mwp-violet);
-    transform: translateY(-4px);
-    box-shadow: 0 24px 50px rgba(124, 58, 237, 0.25);
-}
-
-.mwp-terminal-header {
-    background: #1e293b;
-    padding: 12px 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.mwp-term-dots {
-    display: flex;
-    gap: 7px;
-}
-
-.mwp-term-dot {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-}
-
-.mwp-dot-red { background: #ef4444; }
-.mwp-dot-yellow { background: #f59e0b; }
-.mwp-dot-green { background: #10b981; }
-
-.mwp-term-title {
-    font-family: 'Fira Code', monospace;
-    font-size: 0.8rem;
-    color: #94a3b8;
-}
-
-.mwp-terminal-body {
-    padding: 22px;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.85rem;
-    line-height: 1.85;
-    color: #f8fafc;
-}
-
-.mwp-code-keyword { color: #c084fc; font-weight: 600; }
-.mwp-code-fn { color: #38bdf8; }
-.mwp-code-str { color: #4ade80; }
-.mwp-code-num { color: #fbbf24; }
-.mwp-code-comment { color: #94a3b8; font-style: italic; }
-
-.mwp-hero-metrics {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    padding: 14px 18px;
-    background: #1e293b;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.mwp-metric-box {
-    text-align: center;
-}
-
-.mwp-metric-val {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: #38bdf8;
-    font-family: 'Outfit', sans-serif;
-}
-
-.mwp-metric-lbl {
-    font-size: 0.7rem;
-    color: #cbd5e1;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-/* ==============================================================
-   STATS STRIP WITH LIVE NUMERICAL COUNTERS
-============================================================== */
+/* Stats Strip */
 .mwp-stats-strip {
     background: rgba(15, 23, 42, 0.03);
     border-top: 1px solid var(--mwp-border);
@@ -868,9 +854,7 @@ html {
     font-weight: 600;
 }
 
-/* ==============================================================
-   WORKFLOW SECTION
-============================================================== */
+/* Workflow Grid */
 .mwp-proc-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -942,9 +926,7 @@ html {
     line-height: 1.65;
 }
 
-/* ==============================================================
-   SERVICES SECTION (WITH APP DESIGN & 360° DIGITAL GROWTH)
-============================================================== */
+/* Services Grid */
 .mwp-srv-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1048,9 +1030,7 @@ html {
     flex-shrink: 0;
 }
 
-/* ==============================================================
-   PORTFOLIO PROJECTS SECTION
-============================================================== */
+/* Portfolio Projects */
 .mwp-filter-bar {
     display: flex;
     justify-content: center;
@@ -1133,9 +1113,7 @@ html {
     transition: var(--mwp-ease);
 }
 
-.mwp-project-card:hover .mwp-proj-overlay {
-    opacity: 1;
-}
+.mwp-project-card:hover .mwp-proj-overlay { opacity: 1; }
 
 .mwp-proj-link {
     width: 46px;
@@ -1156,9 +1134,7 @@ html {
     background: var(--mwp-violet-light);
 }
 
-.mwp-proj-content {
-    padding: 22px;
-}
+.mwp-proj-content { padding: 22px; }
 
 .mwp-proj-tag {
     font-size: 0.76rem;
@@ -1183,9 +1159,7 @@ html {
     line-height: 1.6;
 }
 
-/* ==============================================================
-   PRICING SECTION (6 TIERS)
-============================================================== */
+/* Pricing Grid */
 .mwp-pricing-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1287,9 +1261,7 @@ html {
     flex-shrink: 0;
 }
 
-/* ==============================================================
-   TESTIMONIALS SECTION
-============================================================== */
+/* Testimonials */
 .mwp-testi-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1360,9 +1332,7 @@ html {
     font-weight: 500;
 }
 
-/* ==============================================================
-   FAQ ACCORDION
-============================================================== */
+/* FAQ */
 .mwp-faq-wrap {
     max-width: 840px;
     margin: 0 auto;
@@ -1403,9 +1373,7 @@ html {
     transition: transform 0.3s ease;
 }
 
-.mwp-faq-item.active .mwp-faq-icon {
-    transform: rotate(180deg);
-}
+.mwp-faq-item.active .mwp-faq-icon { transform: rotate(180deg); }
 
 .mwp-faq-answer {
     padding: 0 24px 20px;
@@ -1416,13 +1384,9 @@ html {
     display: none;
 }
 
-.mwp-faq-item.active .mwp-faq-answer {
-    display: block;
-}
+.mwp-faq-item.active .mwp-faq-answer { display: block; }
 
-/* ==============================================================
-   DIRECT WHATSAPP CTA BOX
-============================================================== */
+/* WhatsApp CTA Box */
 .mwp-cta-box {
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(2, 132, 199, 0.08));
     border: 1px solid rgba(124, 58, 237, 0.25);
@@ -1451,9 +1415,7 @@ html {
     margin: 0 auto 30px;
 }
 
-/* ==============================================================
-   FULL WIDTH 1-LINE GLASS FOOTER WITH LOGO
-============================================================== */
+/* Full Width Footer */
 .mwp-footer-full {
     width: 100%;
     background: rgba(255, 255, 255, 0.88);
@@ -1479,9 +1441,7 @@ html {
     gap: 16px;
 }
 
-.mwp-logo-footer {
-    height: 38px;
-}
+.mwp-logo-footer { height: 38px; }
 
 .mwp-footer-copy {
     font-size: 0.88rem;
@@ -1506,9 +1466,7 @@ html {
     transition: var(--mwp-ease);
 }
 
-.mwp-footer-nav a:hover {
-    color: var(--mwp-violet);
-}
+.mwp-footer-nav a:hover { color: var(--mwp-violet); }
 
 .mwp-footer-socials {
     display: flex;
@@ -1538,9 +1496,7 @@ html {
     transform: translateY(-2px);
 }
 
-/* ==============================================================
-   MOBILE RESPONSIVENESS
-============================================================== */
+/* Mobile Responsive */
 @media (max-width: 1140px) {
     .mwp-header-status { display: none; }
 }
@@ -1570,7 +1526,7 @@ html {
 @media (max-width: 768px) {
     .mwp-container { padding: 0 16px; }
     .mwp-sec { padding: 55px 0; }
-    .mwp-hero { padding: 40px 0 30px; }
+    .mwp-hero { padding: 35px 0 30px; }
     
     .mwp-logo-img { height: 38px; }
     .mwp-intro-logo { height: 42px; }
@@ -1589,23 +1545,20 @@ html {
 @media (max-width: 420px) {
     .mwp-stats-grid { grid-template-columns: 1fr; gap: 16px; }
     .mwp-typewriter-box { font-size: 1.1rem; }
+    .mwp-terminal-body { font-size: 0.75rem; padding: 16px; min-height: 380px; }
 }
 </style>
 
 <div class="mwp-wrapper">
-    <!-- ==============================================================
-         CINEMATIC OPENING INTRO SPLASH SCREEN
-    ============================================================== -->
+    <!-- CINEMATIC OPENING INTRO SPLASH SCREEN -->
     <div class="mwp-intro-splash" id="mwpIntroSplash" title="Click to enter immediately">
         <div class="mwp-intro-stage">
             <div class="mwp-intro-glow-ring"></div>
             
-            <!-- Floating Branded Logo Box -->
             <div class="mwp-intro-logo-box">
                 <img src="https://manish.vidyao.com/wp-content/uploads/2026/11/public-hub-24-founder-manish-sahani-.png" alt="Manish Sahani - Founder Public Hub 24" class="mwp-intro-logo">
             </div>
 
-            <!-- Animated Tech Capability Pills -->
             <div class="mwp-intro-tech-pills">
                 <span class="mwp-intro-pill"><i class="fa-solid fa-code"></i> Clean Code</span>
                 <span class="mwp-intro-pill"><i class="fa-solid fa-globe"></i> Custom Websites</span>
@@ -1614,7 +1567,6 @@ html {
                 <span class="mwp-intro-pill"><i class="fa-solid fa-layer-group"></i> Full-Stack Dev</span>
             </div>
 
-            <!-- Holographic Progress Bar -->
             <div class="mwp-intro-load-box">
                 <div class="mwp-intro-load-bar">
                     <div class="mwp-intro-load-prog"></div>
@@ -1625,9 +1577,7 @@ html {
         </div>
     </div>
 
-    <!-- ==============================================================
-         STICKY FULL-WIDTH 1-LINE GLASS HEADER
-    ============================================================== -->
+    <!-- STICKY FULL-WIDTH 1-LINE GLASS HEADER -->
     <header class="mwp-header-full" id="mwpHeader">
         <div class="mwp-container">
             <div class="mwp-nav-row">
@@ -1651,9 +1601,9 @@ html {
                     <li><a href="#faq" class="mwp-nav-link">FAQ</a></li>
                 </ul>
 
-                <!-- Right: Header CTA & Burger -->
+                <!-- Right: Header CTA (Stationary, Compact, No Moving Effects) -->
                 <div class="mwp-header-cta">
-                    <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I%20have%20a%20project%20in%20mind!" target="_blank" class="mwp-btn-wa-header mwp-jump-anim">
+                    <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I%20have%20a%20project%20in%20mind!" target="_blank" class="mwp-btn-wa-header">
                         <i class="fa-brands fa-whatsapp"></i> Let's Talk
                     </a>
                     <button class="mwp-burger-btn" id="mwpBurgerBtn" aria-label="Toggle Menu">
@@ -1725,7 +1675,7 @@ html {
                     </div>
                 </div>
 
-                <!-- RIGHT IDE TERMINAL MOCKUP CARD -->
+                <!-- RIGHT IDE TERMINAL MOCKUP CARD (INFINITE LIVE TYPING CODE) -->
                 <div class="mwp-hero-right mwp-reveal mwp-delay-2">
                     <div class="mwp-terminal-card">
                         <div class="mwp-terminal-header">
@@ -1736,22 +1686,12 @@ html {
                             </div>
                             <div class="mwp-term-title">manish.config.ts</div>
                         </div>
-                        <div class="mwp-terminal-body">
-                            <span class="mwp-code-keyword">const</span> developer = {<br>
-                            &nbsp;&nbsp;name: <span class="mwp-code-str">'Manish'</span>,<br>
-                            &nbsp;&nbsp;role: <span class="mwp-code-str">'Full-Stack &amp; App Architect'</span>,<br>
-                            &nbsp;&nbsp;specialty: [<span class="mwp-code-str">'WordPress'</span>, <span class="mwp-code-str">'Mobile Apps'</span>, <span class="mwp-code-str">'React/Next.js'</span>, <span class="mwp-code-str">'SEO Growth'</span>],<br>
-                            &nbsp;&nbsp;experienceYears: <span class="mwp-code-num">3+</span>,<br>
-                            &nbsp;&nbsp;status: <span class="mwp-code-str">'Ready for high-impact projects'</span>,<br>
-                            &nbsp;&nbsp;deliverables: <span class="mwp-code-fn">() =&gt;</span> [<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="mwp-code-str">'Pixel-Perfect UI/UX'</span>,<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="mwp-code-str">'Lightning Load Time (&lt;1s)'</span>,<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="mwp-code-str">'360° Digital Brand Growth'</span><br>
-                            &nbsp;&nbsp;]<br>
-                            };<br>
-                            <span class="mwp-code-comment">// Ready to turn your vision into high revenue...</span><br>
-                            <span class="mwp-code-fn">console</span>.<span class="mwp-code-fn">log</span>(developer.<span class="mwp-code-fn">deliverables</span>());
+                        
+                        <!-- Live Typing Code Body -->
+                        <div class="mwp-terminal-body" id="mwpTerminalBody">
+                            <span class="mwp-code-cursor">|</span>
                         </div>
+                        
                         <div class="mwp-hero-metrics">
                             <div class="mwp-metric-box">
                                 <div class="mwp-metric-val">50+</div>
@@ -1848,7 +1788,7 @@ html {
         </div>
     </section>
 
-    <!-- CORE SERVICES SECTION (WITH APP DESIGN & 360° DIGITAL GROWTH) -->
+    <!-- CORE SERVICES SECTION -->
     <section class="mwp-sec" id="services">
         <div class="mwp-container">
             <div class="mwp-center mwp-reveal">
@@ -1857,7 +1797,6 @@ html {
             </div>
 
             <div class="mwp-srv-grid">
-                <!-- Service 1: WordPress -->
                 <div class="mwp-srv-card mwp-reveal mwp-delay-1">
                     <div class="mwp-srv-icon"><i class="fa-brands fa-wordpress"></i></div>
                     <h3>WordPress Engineering</h3>
@@ -1871,7 +1810,6 @@ html {
                     <a href="#pricing" class="mwp-btn-out" style="margin-top:auto">View Pricing</a>
                 </div>
 
-                <!-- Service 2: App Design & Mobile Development -->
                 <div class="mwp-srv-card mwp-popular mwp-reveal mwp-delay-2">
                     <div class="mwp-srv-badge">✦ Top Choice</div>
                     <div class="mwp-srv-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
@@ -1886,7 +1824,6 @@ html {
                     <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I'm%20interested%20in%20App%20Design%20&%20Development!" target="_blank" class="mwp-btn-pri" style="margin-top:auto">Order App Project</a>
                 </div>
 
-                <!-- Service 3: Full-Stack Web Apps -->
                 <div class="mwp-srv-card mwp-reveal mwp-delay-3">
                     <div class="mwp-srv-icon"><i class="fa-solid fa-laptop-code"></i></div>
                     <h3>Full-Stack Web Apps</h3>
@@ -1900,7 +1837,6 @@ html {
                     <a href="#pricing" class="mwp-btn-out" style="margin-top:auto">View Pricing</a>
                 </div>
 
-                <!-- Service 4: Speed & Security -->
                 <div class="mwp-srv-card mwp-reveal mwp-delay-1">
                     <div class="mwp-srv-icon"><i class="fa-solid fa-gauge-high"></i></div>
                     <h3>Speed &amp; Security Audit</h3>
@@ -1914,7 +1850,6 @@ html {
                     <a href="#pricing" class="mwp-btn-out" style="margin-top:auto">Optimize Now</a>
                 </div>
 
-                <!-- Service 5: 360° Digital Growth Suite -->
                 <div class="mwp-srv-card mwp-reveal mwp-delay-2">
                     <div class="mwp-srv-icon"><i class="fa-solid fa-bullhorn"></i></div>
                     <h3>360° Digital Growth Engine</h3>
@@ -1928,7 +1863,6 @@ html {
                     <a href="#pricing" class="mwp-btn-out" style="margin-top:auto">Explore Promotion</a>
                 </div>
 
-                <!-- Service 6: Website Care & Retainer -->
                 <div class="mwp-srv-card mwp-reveal mwp-delay-3">
                     <div class="mwp-srv-icon"><i class="fa-solid fa-shield-halved"></i></div>
                     <h3>Website Care &amp; Support</h3>
@@ -1953,7 +1887,6 @@ html {
                 <p class="mwp-subtitle">Explore a selected collection of custom websites, web applications, mobile apps, and e-commerce stores.</p>
             </div>
 
-            <!-- Filter Buttons -->
             <div class="mwp-filter-bar mwp-reveal">
                 <button class="mwp-filter-btn active" data-filter="all">All Projects</button>
                 <button class="mwp-filter-btn" data-filter="app">Mobile Apps</button>
@@ -1962,9 +1895,7 @@ html {
                 <button class="mwp-filter-btn" data-filter="ecommerce">E-Commerce</button>
             </div>
 
-            <!-- Projects Grid -->
             <div class="mwp-projects-grid" id="mwpProjectsGrid">
-                <!-- Project 1: App Design -->
                 <div class="mwp-project-card mwp-reveal mwp-delay-1" data-category="app">
                     <div class="mwp-proj-thumb">
                         <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=700&amp;auto=format&amp;fit=crop&amp;q=80" alt="Mobile App UI/UX" loading="lazy">
@@ -1979,7 +1910,6 @@ html {
                     </div>
                 </div>
 
-                <!-- Project 2: E-Commerce -->
                 <div class="mwp-project-card mwp-reveal mwp-delay-2" data-category="ecommerce">
                     <div class="mwp-proj-thumb">
                         <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=700&amp;auto=format&amp;fit=crop&amp;q=80" alt="E-Commerce Storefront" loading="lazy">
@@ -1994,7 +1924,6 @@ html {
                     </div>
                 </div>
 
-                <!-- Project 3: SaaS Dashboard -->
                 <div class="mwp-project-card mwp-reveal mwp-delay-3" data-category="webapp">
                     <div class="mwp-proj-thumb">
                         <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=700&amp;auto=format&amp;fit=crop&amp;q=80" alt="SaaS Analytics Dashboard" loading="lazy">
@@ -2009,7 +1938,6 @@ html {
                     </div>
                 </div>
 
-                <!-- Project 4: Corporate Website -->
                 <div class="mwp-project-card mwp-reveal mwp-delay-1" data-category="wordpress">
                     <div class="mwp-proj-thumb">
                         <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=700&amp;auto=format&amp;fit=crop&amp;q=80" alt="Corporate Website" loading="lazy">
@@ -2024,7 +1952,6 @@ html {
                     </div>
                 </div>
 
-                <!-- Project 5: App Design -->
                 <div class="mwp-project-card mwp-reveal mwp-delay-2" data-category="app">
                     <div class="mwp-proj-thumb">
                         <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?w=700&amp;auto=format&amp;fit=crop&amp;q=80" alt="Health App" loading="lazy">
@@ -2039,7 +1966,6 @@ html {
                     </div>
                 </div>
 
-                <!-- Project 6: Custom ERP -->
                 <div class="mwp-project-card mwp-reveal mwp-delay-3" data-category="wordpress">
                     <div class="mwp-proj-thumb">
                         <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&amp;auto=format&amp;fit=crop&amp;q=80" alt="ERP Solution" loading="lazy">
@@ -2066,7 +1992,6 @@ html {
             </div>
 
             <div class="mwp-pricing-grid">
-                <!-- Plan 1: Basic Web -->
                 <div class="mwp-price-card mwp-reveal mwp-delay-1">
                     <div class="mwp-price-tier">Basic Web</div>
                     <div class="mwp-price-amt">₹11,999<span> / project</span></div>
@@ -2081,7 +2006,6 @@ html {
                     <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I%20want%20to%20order%20the%20Basic%20Web%20Package%20(₹11,999)" target="_blank" class="mwp-btn-out">Choose Basic</a>
                 </div>
 
-                <!-- Plan 2: Business Pro (Popular) -->
                 <div class="mwp-price-card mwp-price-pop mwp-reveal mwp-delay-2">
                     <div class="mwp-price-badge">Most Popular</div>
                     <div class="mwp-price-tier">Business Pro</div>
@@ -2097,7 +2021,6 @@ html {
                     <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I%20want%20to%20order%20the%20Business%20Pro%20Package%20(₹14,999)" target="_blank" class="mwp-btn-pri mwp-btn-wa">Choose Business</a>
                 </div>
 
-                <!-- Plan 3: Mobile App Suite -->
                 <div class="mwp-price-card mwp-reveal mwp-delay-3">
                     <div class="mwp-price-tier">Mobile App Suite</div>
                     <div class="mwp-price-amt">₹19,999+<span> / project</span></div>
@@ -2112,7 +2035,6 @@ html {
                     <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I%20want%20to%20discuss%20the%20Mobile%20App%20Suite%20(₹19,999+)" target="_blank" class="mwp-btn-out">Build App</a>
                 </div>
 
-                <!-- Plan 4: Website Care Retainer -->
                 <div class="mwp-price-card mwp-reveal mwp-delay-1">
                     <div class="mwp-price-tier">Website Care Retainer</div>
                     <div class="mwp-price-amt">₹7,999<span> / month</span></div>
@@ -2127,7 +2049,6 @@ html {
                     <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I%20want%20to%20enroll%20in%20the%20Website%20Care%20Retainer%20(₹7,999/mo)" target="_blank" class="mwp-btn-out">Maintain Site</a>
                 </div>
 
-                <!-- Plan 5: 360° Full Business Promotion Suite -->
                 <div class="mwp-price-card mwp-price-pop mwp-reveal mwp-delay-2" style="background: linear-gradient(150deg, rgba(2, 132, 199, 0.12), rgba(255, 255, 255, 0.96)); border-color: var(--mwp-cyan);">
                     <div class="mwp-price-badge" style="background: linear-gradient(135deg, var(--mwp-cyan), var(--mwp-violet));">360° Promotion</div>
                     <div class="mwp-price-tier">Full Digital Growth</div>
@@ -2143,7 +2064,6 @@ html {
                     <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I'm%20ready%20for%20the%20Full%20Digital%20Growth%20&%20Promotion%20Package!" target="_blank" class="mwp-btn-pri mwp-btn-wa">Dominate Online</a>
                 </div>
 
-                <!-- Plan 6: Enterprise -->
                 <div class="mwp-price-card mwp-reveal mwp-delay-3">
                     <div class="mwp-price-tier">Enterprise</div>
                     <div class="mwp-price-amt">₹34,999+<span> / project</span></div>
@@ -2273,7 +2193,7 @@ html {
             <div class="mwp-cta-box mwp-reveal">
                 <h2>Ready To Build Something <em class="mwp-scratch">Extraordinary?</em></h2>
                 <p>Skip complicated forms. Drop a quick message directly on WhatsApp and let's bring your project to life!</p>
-                <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I'm%20ready%20to%20start%20my%20project!" target="_blank" class="mwp-btn-pri mwp-btn-wa mwp-jump-anim" style="font-size: 1.1rem; padding: 16px 36px;">
+                <a href="https://wa.me/917388197123?text=Hi%20Manish,%20I'm%20ready%20to%20start%20my%20project!" target="_blank" class="mwp-btn-pri mwp-btn-wa" style="font-size: 1.1rem; padding: 16px 36px;">
                     <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i> Start Chat With Manish
                 </a>
             </div>
@@ -2284,7 +2204,6 @@ html {
     <footer class="mwp-footer-full">
         <div class="mwp-container">
             <div class="mwp-footer-row">
-                <!-- Left: Image Logo & Copyright -->
                 <div class="mwp-footer-left">
                     <a href="#hero" class="mwp-logo">
                         <img src="https://manish.vidyao.com/wp-content/uploads/2026/11/public-hub-24-founder-manish-sahani-.png" alt="Manish Sahani - Founder Public Hub 24" class="mwp-logo-img mwp-logo-footer">
@@ -2292,7 +2211,6 @@ html {
                     <span class="mwp-footer-copy">© 2026 Manish Sahani. All rights reserved.</span>
                 </div>
 
-                <!-- Center: 1-Line Navigation Links (Clean Text - No Icons) -->
                 <ul class="mwp-footer-nav">
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#workflow">Workflow</a></li>
@@ -2303,7 +2221,6 @@ html {
                     <li><a href="#faq">FAQ</a></li>
                 </ul>
 
-                <!-- Right: Social / Contact Buttons -->
                 <div class="mwp-footer-socials">
                     <a href="https://wa.me/917388197123" target="_blank" class="mwp-footer-social-btn" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                     <a href="mailto:contact@manish.vidyao.com" class="mwp-footer-social-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
@@ -2322,18 +2239,16 @@ html {
     // 1. CINEMATIC INTRO SPLASH DISMISSAL
     const splash = document.getElementById('mwpIntroSplash');
     if (splash) {
-        // Auto dismiss after 1.6s
         setTimeout(() => {
             splash.classList.add('dismissed');
         }, 1600);
 
-        // Click anywhere to skip instantly
         splash.addEventListener('click', () => {
             splash.classList.add('dismissed');
         });
     }
 
-    // 2. WRITE / TYPEWRITER EFFECT
+    // 2. HERO WRITE / TYPEWRITER EFFECT
     const words = [
         "Custom WordPress Themes",
         "Mobile Apps (iOS & Android)",
@@ -2361,30 +2276,138 @@ html {
         let typeSpeed = isDeleting ? 40 : 80;
 
         if (!isDeleting && charIndex === currentWord.length) {
-            typeSpeed = 1800; // Pause at end of word
+            typeSpeed = 1800;
             isDeleting = true;
         } else if (isDeleting && charIndex === 0) {
             isDeleting = false;
             wordIndex = (wordIndex + 1) % words.length;
-            typeSpeed = 400; // Pause before new word
+            typeSpeed = 400;
         }
 
         setTimeout(typeLoop, typeSpeed);
     }
     typeLoop();
 
-    // 3. STICKY HEADER SCROLL EFFECT
+    // 3. INFINITE LIVE CODING TYPEWRITER ENGINE FOR IDE CARD
+    const terminalBody = document.getElementById('mwpTerminalBody');
+    const codeTokens = [
+        { t: "const ", c: "mwp-code-keyword" },
+        { t: "developer = {\n  name: ", c: "" },
+        { t: "'Manish'", c: "mwp-code-str" },
+        { t: ",\n  role: ", c: "" },
+        { t: "'Full-Stack & App Architect'", c: "mwp-code-str" },
+        { t: ",\n  specialty: [", c: "" },
+        { t: "'WordPress'", c: "mwp-code-str" },
+        { t: ", ", c: "" },
+        { t: "'Mobile Apps'", c: "mwp-code-str" },
+        { t: ", ", c: "" },
+        { t: "'React/Next.js'", c: "mwp-code-str" },
+        { t: ", ", c: "" },
+        { t: "'SEO Growth'", c: "mwp-code-str" },
+        { t: "],\n  experienceYears: ", c: "" },
+        { t: "3+", c: "mwp-code-num" },
+        { t: ",\n  status: ", c: "" },
+        { t: "'Ready for high-impact projects'", c: "mwp-code-str" },
+        { t: ",\n  deliverables: ", c: "" },
+        { t: "() =>", c: "mwp-code-fn" },
+        { t: " [\n    ", c: "" },
+        { t: "'Pixel-Perfect UI/UX'", c: "mwp-code-str" },
+        { t: ",\n    ", c: "" },
+        { t: "'Lightning Load Time (<1s)'", c: "mwp-code-str" },
+        { t: ",\n    ", c: "" },
+        { t: "'360° Digital Brand Growth'", c: "mwp-code-str" },
+        { t: "\n  ]\n};\n\n", c: "" },
+        { t: "// Ready to turn your vision into high revenue...\n", c: "mwp-code-comment" },
+        { t: "console", c: "mwp-code-fn" },
+        { t: ".", c: "" },
+        { t: "log", c: "mwp-code-fn" },
+        { t: "(developer.", c: "" },
+        { t: "deliverables", c: "mwp-code-fn" },
+        { t: "());", c: "" }
+    ];
+
+    function escapeHTML(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    function formatText(str) {
+        return escapeHTML(str)
+            .replace(/\n/g, '<br>')
+            .replace(/ {2}/g, '&nbsp;&nbsp;');
+    }
+
+    let tokenIdx = 0;
+    let charPos = 0;
+
+    function renderCurrentCode() {
+        if (!terminalBody) return;
+        let html = '';
+        for (let i = 0; i < tokenIdx; i++) {
+            const tok = codeTokens[i];
+            if (tok.c) {
+                html += `<span class="${tok.c}">${formatText(tok.t)}</span>`;
+            } else {
+                html += formatText(tok.t);
+            }
+        }
+        if (tokenIdx < codeTokens.length) {
+            const currentTok = codeTokens[tokenIdx];
+            const part = currentTok.t.substring(0, charPos);
+            if (currentTok.c) {
+                html += `<span class="${currentTok.c}">${formatText(part)}</span>`;
+            } else {
+                html += formatText(part);
+            }
+        }
+        html += '<span class="mwp-code-cursor">|</span>';
+        terminalBody.innerHTML = html;
+    }
+
+    function runCodeTypewriter() {
+        if (!terminalBody) return;
+
+        if (tokenIdx < codeTokens.length) {
+            const curTok = codeTokens[tokenIdx];
+            if (charPos < curTok.t.length) {
+                charPos++;
+                renderCurrentCode();
+                const charTyped = curTok.t[charPos - 1];
+                let delay = 22 + Math.random() * 20;
+                if (charTyped === '\n') delay = 90;
+                setTimeout(runCodeTypewriter, delay);
+            } else {
+                tokenIdx++;
+                charPos = 0;
+                setTimeout(runCodeTypewriter, 30);
+            }
+        } else {
+            // Completed full code -> pause for 3.5s then restart infinitely
+            setTimeout(() => {
+                tokenIdx = 0;
+                charPos = 0;
+                terminalBody.innerHTML = '<span class="mwp-code-cursor">|</span>';
+                setTimeout(runCodeTypewriter, 600);
+            }, 3500);
+        }
+    }
+    // Launch live typing code
+    setTimeout(runCodeTypewriter, 1200);
+
+    // 4. STICKY HEADER SCROLL SHADOW
     const header = document.getElementById('mwpHeader');
     window.addEventListener('scroll', () => {
         if (!header) return;
-        if (window.scrollY > 30) {
+        if (window.scrollY > 20) {
             header.classList.add('is-scrolled');
         } else {
             header.classList.remove('is-scrolled');
         }
     });
 
-    // 4. INTERSECTION OBSERVER FOR SCROLL REVEAL & SCRATCH DRAW EFFECT
+    // 5. INTERSECTION OBSERVER FOR SCROLL REVEAL & SCRATCH DRAW EFFECT
     const revealElems = document.querySelectorAll('.mwp-reveal, .mwp-scratch');
     const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
@@ -2397,7 +2420,7 @@ html {
 
     revealElems.forEach(el => observer.observe(el));
 
-    // 5. RUNNING NUMBER COUNTERS ON SCROLL
+    // 6. RUNNING NUMBER COUNTERS ON SCROLL
     const counterElems = document.querySelectorAll('.mwp-counter');
     const counterObserver = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
@@ -2421,7 +2444,7 @@ html {
 
     counterElems.forEach(el => counterObserver.observe(el));
 
-    // 6. MOBILE MENU TOGGLE
+    // 7. MOBILE MENU TOGGLE
     const burgerBtn = document.getElementById('mwpBurgerBtn');
     const mobileMenu = document.getElementById('mwpMobileMenu');
 
@@ -2439,7 +2462,7 @@ html {
         });
     }
 
-    // 7. SMOOTH SCROLLING FOR ALL HEADER & MOBILE LINKS
+    // 8. SMOOTH SCROLLING FOR ALL HEADER & MOBILE LINKS
     const navLinks = document.querySelectorAll('.mwp-nav-link, .mwp-footer-nav a, .mwp-btn-out[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -2453,7 +2476,6 @@ html {
                         block: 'start'
                     });
 
-                    // Close mobile menu if clicked
                     if (mobileMenu && mobileMenu.classList.contains('open')) {
                         mobileMenu.classList.remove('open');
                         const icon = burgerBtn.querySelector('i');
@@ -2464,7 +2486,7 @@ html {
         });
     });
 
-    // 8. PORTFOLIO FILTERING
+    // 9. PORTFOLIO FILTERING
     const filterBtns = document.querySelectorAll('.mwp-filter-btn');
     const projectCards = document.querySelectorAll('.mwp-project-card');
 
@@ -2485,7 +2507,7 @@ html {
         });
     });
 
-    // 9. FAQ ACCORDION
+    // 10. FAQ ACCORDION
     const faqItems = document.querySelectorAll('.mwp-faq-item');
     faqItems.forEach(item => {
         const question = item.querySelector('.mwp-faq-question');
