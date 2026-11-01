@@ -40,7 +40,6 @@ html {
     position: relative;
     width: 100%;
     box-sizing: border-box;
-    /* overflow-x: clip ensures position:sticky works reliably in WP/Elementor */
     overflow-x: clip;
 }
 
@@ -253,7 +252,7 @@ html {
 }
 
 /* ==============================================================
-   STICKY 1-LINE GLASS HEADER (LOCKED STICKY + COMPACT BUTTON)
+   STICKY 1-LINE GLASS HEADER (PERFECTLY CENTERED MENU)
 ============================================================== */
 .mwp-header-full {
     width: 100%;
@@ -275,7 +274,6 @@ html {
     border-bottom-color: rgba(124, 58, 237, 0.25);
 }
 
-/* Support for WordPress Admin Bar */
 body.admin-bar .mwp-header-full {
     top: 32px !important;
 }
@@ -285,22 +283,26 @@ body.admin-bar .mwp-header-full {
     align-items: center;
     justify-content: space-between;
     padding: 10px 0;
+    min-height: 62px;
     gap: 16px;
+    box-sizing: border-box;
 }
 
 /* Header Left: Brand Logo & Status Tag */
 .mwp-header-left-wrap {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     flex-shrink: 0;
 }
 
 .mwp-logo {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none !important;
     cursor: pointer;
+    line-height: 0;
 }
 
 .mwp-logo-img {
@@ -308,6 +310,7 @@ body.admin-bar .mwp-header-full {
     width: auto;
     max-width: 190px;
     object-fit: contain;
+    display: block;
     transition: var(--mwp-ease);
     filter: drop-shadow(0 2px 8px rgba(15, 23, 42, 0.08));
 }
@@ -321,31 +324,48 @@ body.admin-bar .mwp-header-full {
     color: #059669;
     background: rgba(5, 150, 105, 0.09);
     border: 1px solid rgba(5, 150, 105, 0.22);
-    padding: 5px 12px;
+    padding: 6px 14px;
     border-radius: 30px;
     white-space: nowrap;
+    line-height: 1;
 }
 
-/* Header Menu (Clean Text Only) */
+/* ==============================================================
+   HEADER MENU: FLAWLESS TOP-TO-BOTTOM VERTICAL CENTERING
+============================================================== */
 .mwp-nav-menu {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 4px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.mwp-nav-menu li {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .mwp-nav-link {
     color: var(--mwp-muted);
-    font-size: 0.93rem;
+    font-size: 0.94rem;
     font-weight: 600;
-    padding: 8px 13px;
+    padding: 8px 14px;
     border-radius: 10px;
     text-decoration: none !important;
     transition: var(--mwp-ease);
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
     white-space: nowrap;
+    margin: 0 !important;
 }
 
 .mwp-nav-link:hover,
@@ -354,7 +374,7 @@ body.admin-bar .mwp-header-full {
     background: rgba(124, 58, 237, 0.08);
 }
 
-/* Header Right: Static & Compact Button (No jump, no moving effects) */
+/* Header Right: Static & Compact Button */
 .mwp-header-cta {
     display: flex;
     align-items: center;
@@ -365,24 +385,26 @@ body.admin-bar .mwp-header-full {
 .mwp-btn-wa-header {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     background: linear-gradient(135deg, #25D366, #128C7E);
     color: #ffffff !important;
-    padding: 7px 15px; /* Compact & clean */
+    padding: 8px 16px;
     border-radius: 10px;
     font-weight: 700;
-    font-size: 0.83rem; /* Slightly smaller font */
+    font-size: 0.83rem;
+    line-height: 1;
     box-shadow: 0 2px 10px rgba(37, 211, 102, 0.25);
     text-decoration: none !important;
-    animation: none !important; /* Completely static */
-    transform: none !important;  /* No movement */
+    animation: none !important;
+    transform: none !important;
     transition: opacity 0.2s ease;
     white-space: nowrap;
 }
 
 .mwp-btn-wa-header:hover {
     opacity: 0.92;
-    transform: none !important; /* Kept strictly stationary */
+    transform: none !important;
 }
 
 .mwp-burger-btn {
@@ -468,19 +490,17 @@ body.admin-bar .mwp-header-full {
     color: #94a3b8;
 }
 
-/* Real-time typing code container with steady height */
 .mwp-terminal-body {
     padding: 22px;
     font-family: 'Fira Code', monospace;
     font-size: 0.83rem;
     line-height: 1.82;
     color: #f8fafc;
-    min-height: 340px; /* Prevents card jumping during live retyping */
+    min-height: 340px;
     box-sizing: border-box;
     word-break: break-word;
 }
 
-/* Code Syntax Color Classes */
 .mwp-code-keyword { color: #c084fc; font-weight: 600; }
 .mwp-code-fn { color: #38bdf8; }
 .mwp-code-str { color: #4ade80; }
@@ -1096,9 +1116,7 @@ body.admin-bar .mwp-header-full {
     transition: transform 0.6s ease;
 }
 
-.mwp-project-card:hover .mwp-proj-thumb img {
-    transform: scale(1.08);
-}
+.mwp-project-card:hover .mwp-proj-thumb img { transform: scale(1.08); }
 
 .mwp-proj-overlay {
     position: absolute;
@@ -1453,9 +1471,9 @@ body.admin-bar .mwp-header-full {
     display: flex;
     align-items: center;
     gap: 18px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .mwp-footer-nav a {
@@ -1577,7 +1595,7 @@ body.admin-bar .mwp-header-full {
         </div>
     </div>
 
-    <!-- STICKY FULL-WIDTH 1-LINE GLASS HEADER -->
+    <!-- STICKY FULL-WIDTH 1-LINE GLASS HEADER (PERFECTLY CENTERED MENU) -->
     <header class="mwp-header-full" id="mwpHeader">
         <div class="mwp-container">
             <div class="mwp-nav-row">
@@ -1591,7 +1609,7 @@ body.admin-bar .mwp-header-full {
                     </div>
                 </div>
 
-                <!-- Center: 1-Line Desktop Menu (Clean Text Only) -->
+                <!-- Center: 1-Line Desktop Menu (100% Dead-Centered Vertically) -->
                 <ul class="mwp-nav-menu">
                     <li><a href="#workflow" class="mwp-nav-link">Workflow</a></li>
                     <li><a href="#services" class="mwp-nav-link">Core Services</a></li>
@@ -2384,7 +2402,6 @@ body.admin-bar .mwp-header-full {
                 setTimeout(runCodeTypewriter, 30);
             }
         } else {
-            // Completed full code -> pause for 3.5s then restart infinitely
             setTimeout(() => {
                 tokenIdx = 0;
                 charPos = 0;
@@ -2393,7 +2410,6 @@ body.admin-bar .mwp-header-full {
             }, 3500);
         }
     }
-    // Launch live typing code
     setTimeout(runCodeTypewriter, 1200);
 
     // 4. STICKY HEADER SCROLL SHADOW
